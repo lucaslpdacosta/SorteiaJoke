@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { setBackgroundColorAsync } from "expo-navigation-bar";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Animated, ImageBackground } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Animated, ImageBackground, Alert } from 'react-native';
 import { auth } from '../../Firebase/Firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
@@ -38,14 +38,24 @@ export default function Login({ navigation }) {
     return () => pulso.stop();
   }, [animPulso]);
 
+  const alertaLogado = (title, msg) =>
+    Alert.alert(title ? title : 'Usuário autenticado', msg, [
+      { text: 'OK' },
+    ]);
+
+  const alertaErro = (title, msg) =>
+    Alert.alert(title ? title : 'Erro', msg, [
+      { text: 'OK' },
+    ]);
+
   async function ValidarLogin() {
     try {
       await signInWithEmailAndPassword(auth, email, senha);
-      alert('Logado');
+      alertaLogado("", "Usuário autenticado com sucesso.");
       navigation.navigate('TelaPrincipal');
     } catch (error) {
       console.log(error);
-      alert('Email ou senha inválidos.');
+      alertaErro("", "Email ou senha inválidos.");
     }
   }
 
@@ -73,7 +83,7 @@ export default function Login({ navigation }) {
             <Text style={styles.tituloJoke}>Joke</Text>
           </Animated.View>
         </View>
-        
+
         <View style={styles.content}>
           <Text style={styles.titulo}>Faça seu Login</Text>
           <TextInput
