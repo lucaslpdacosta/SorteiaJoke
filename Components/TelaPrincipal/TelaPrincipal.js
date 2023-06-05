@@ -35,7 +35,7 @@ const TelaPrincipal = () => {
     try {
       const response = await fetch('https://api-de-piadas.herokuapp.com/piadas');
       const data = await response.json();
-  
+
       const pegarID = Math.floor(Math.random() * data.length);
       const randomJoke = data[pegarID];
 
@@ -44,7 +44,6 @@ const TelaPrincipal = () => {
       console.error(error);
     }
   };
-  
 
   const BotaoCompartilhar = async () => {
     try {
@@ -89,9 +88,12 @@ const TelaPrincipal = () => {
           <Icon name="home" size={30} color="#000000" />
         </TouchableOpacity>
       </View>
+      <View style={styles.tituloContainer}>
+        <Text style={styles.tituloTexto}>Só as Piores das Piores ;)</Text>
+      </View>
       <View style={styles.containerMain}>
         <View style={styles.containerJoke}>
-            <Text style={styles.textoPiada}>{piada}</Text>
+          <Text style={styles.textoPiada}>{piada}</Text>
           <TouchableOpacity
             style={[
               styles.botaoGerar,
@@ -209,6 +211,21 @@ const styles = StyleSheet.create({
   },
   iconeBotao: {
     marginRight: 5,
+  },
+  tituloContainer: {
+    position: 'absolute',
+    top: '30%',
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+  },
+  tituloTexto: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#333333',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    borderRadius: 10,
+    padding: 10
   },
 });
 
