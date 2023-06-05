@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { setBackgroundColorAsync } from "expo-navigation-bar";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Animated, ImageBackground } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Animated, ImageBackground, Alert } from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../Firebase/Firebase';
 
@@ -39,18 +39,33 @@ export default function Cadastro({ navigation }) {
     return () => pulso.stop();
   }, [animPulso]);
 
+  const alertaCadastro = (title, msg) =>
+    Alert.alert(title ? title : 'Cadastro Confirmado', msg, [
+      { text: 'OK' },
+    ]);
+
+  const alertaErroSenha = (title, msg) =>
+    Alert.alert(title ? title : 'Erro', msg, [
+      { text: 'OK' },
+    ]);
+
+  const alertaErro = (title, msg) =>
+    Alert.alert(title ? title : 'Erro', msg, [
+      { text: 'OK' },
+    ]);
+
   async function ValidarCadastro() {
     try {
       if (senha === confirmaSenha) {
         await createUserWithEmailAndPassword(auth, email, senha);
-        alert('Cadastro Criado com Sucesso');
+        alertaCadastro("", "Cadastro criado com sucesso.");
         navigation.navigate('Login');
       } else {
-        alert('Senha Incorreta.');
+        alertaErroSenha('', 'Senha Incorreta.');
       }
     } catch (error) {
       console.log(error);
-      alert('Campo(s) inválido(s).');
+      alertaErro('', 'Campo(s) inválido(s).');
     }
   }
 
@@ -78,7 +93,7 @@ export default function Cadastro({ navigation }) {
             <Text style={styles.tituloJoke}>Joke</Text>
           </Animated.View>
         </View>
-        
+
         <View style={styles.content}>
           <Text style={styles.titulo}>Faça seu Cadastro</Text>
           <TextInput
