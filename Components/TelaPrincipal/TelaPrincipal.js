@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginLeft: 20,
     marginRight: 20,
+    marginBottom: 20
   },
   textoPiada: {
     fontSize: 18,
@@ -184,9 +185,10 @@ const styles = StyleSheet.create({
   },
   botaoCompartilhar: {
     backgroundColor: '#33FFAD',
+    position: 'absolute',
+    bottom: 220,
     width: '50%',
     height: 40,
-    marginTop: 10,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
