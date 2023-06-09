@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Share, StyleSheet, Text, TouchableOpacity, Animated, ImageBackground } from 'react-native';
+import { View, Share, StyleSheet, Text, TouchableOpacity, Animated, ImageBackground, ActivityIndicator } from 'react-native';
 import imageBackground from '../../assets/bg.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
@@ -10,7 +10,8 @@ const TelaPrincipal = () => {
 
   const [piada, setPiada] = useState('');
   const [botaoPressionado, setBotaoPressionado] = useState(false);
-
+  const [carregando, setCarregando] = useState(true);
+  const [reqInicial, setReqInicial] = useState(true);
   const aumentarBotao = useRef(new Animated.Value(1)).current;
 
   const checarBotaoPressionado = (buttonScale) => {
@@ -33,18 +34,32 @@ const TelaPrincipal = () => {
 
   const pegarPiada = async () => {
     try {
+      if (reqInicial) {
+        setCarregando(true);
+        setReqInicial(false);
+      }
+
       const response = await fetch('https://api-de-piadas.onrender.com/piadas');
-      const data = await response.json();
+      const text = await response.text();
 
-      const pegarID = Math.floor(Math.random() * data.length);
-      const randomJoke = data[pegarID];
+      try {
+        const data = JSON.parse(text);
 
-      setPiada(randomJoke.piada);
+        const pegarID = Math.floor(Math.random() * data.length);
+        const randomJoke = data[pegarID];
+
+        setPiada(randomJoke.piada);
+        setCarregando(false);
+      } catch (error) {
+        console.error('Invalid JSON response:', text);
+        setCarregando(false);
+      }
     } catch (error) {
-      console.error(error);
+      console.error('API request error:', error);
+      setCarregando(false);
     }
   };
-
+  
   const BotaoCompartilhar = async () => {
     try {
       await Share.share({
@@ -57,7 +72,7 @@ const TelaPrincipal = () => {
 
   const AnimPulso = useRef(new Animated.Value(1)).current;
 
-  const startPulsatingAnimation = () => {
+  const inicioAnim = () => {
     Animated.loop(
       Animated.sequence([
         Animated.timing(AnimPulso, {
@@ -76,7 +91,7 @@ const TelaPrincipal = () => {
   };
 
   useEffect(() => {
-    startPulsatingAnimation();
+    inicioAnim();
   }, []);
 
   return (
@@ -93,7 +108,11 @@ const TelaPrincipal = () => {
       </View>
       <View style={styles.containerMain}>
         <View style={styles.containerJoke}>
-          <Text style={styles.textoPiada}>{piada}</Text>
+          {carregando ? (
+            <ActivityIndicator size="large" color="#33FFAD"/>
+          ) : (
+            <Text style={styles.textoPiada}>{piada}</Text>
+          )}
           <TouchableOpacity
             style={[
               styles.botaoGerar,
