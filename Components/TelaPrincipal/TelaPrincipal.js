@@ -33,7 +33,7 @@ const TelaPrincipal = () => {
 
   const pegarPiada = async () => {
     try {
-      const response = await fetch('https://api-de-piadas.herokuapp.com/piadas');
+      const response = await fetch('https://api-de-piadas.onrender.com/piadas');
       const data = await response.json();
 
       const pegarID = Math.floor(Math.random() * data.length);
