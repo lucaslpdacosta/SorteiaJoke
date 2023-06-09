@@ -9,4 +9,4 @@ Aplicação criada em React Native com Expo como projeto da Disciplina de Desens
 
 ## Problemas Conhecidos:
 
-- **Devido à limitações, a disponibilidade da API pode não ser instantânea devido a certas situações.**
+- **Devido à limitações da plataforma de hospedagem, a disponibilidade da API pode não ser instantânea em certas situações (fora isso, sua funcionalidade não é afetada).**
