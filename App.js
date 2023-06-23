@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from './Components/Login/Login';
 import Cadastro from './Components/Cadastro/Cadastro';
 import TelaPrincipal from './Components/TelaPrincipal/TelaPrincipal';
+import RecuperarSenha from './Components/RecuperarSenha/RecuperarSenha';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,9 @@ const App = () => {
         />
         <Stack.Screen name="TelaPrincipal" component={TelaPrincipal}
           options={{ title: "TelaPrincipal", headerShown: false }}
+        />
+        <Stack.Screen name="RecuperarSenha" component={RecuperarSenha}
+          options={{ title: "RecuperarSenha", headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

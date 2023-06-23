@@ -114,8 +114,14 @@ export default function Login({ navigation }) {
             <Text style={styles.tituloBotao}>ENTRAR</Text>
           </TouchableOpacity>
 
-          <Text style={styles.linkNav} onPress={() => navigation.navigate('Cadastro')}>
-            Não tem uma conta?
+          <Text style={styles.linkNav}>
+            <Text style={styles.linkText} onPress={() => navigation.navigate('RecuperarSenha')}>
+              Esqueceu sua senha?
+            </Text>
+            <Text style={styles.separador}> | </Text>
+            <Text style={styles.linkText} onPress={() => navigation.navigate('Cadastro')}>
+              Não tem uma conta?
+            </Text>
           </Text>
         </View>
       </View>
@@ -238,8 +244,18 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   linkNav: {
+    flexDirection: 'row',
     marginTop: 20,
+    alignItems: 'center',
+  },
+  linkText: {
     textDecorationLine: 'underline',
+    fontWeight: 500,
+    fontSize: 12,
+    color: '#333333',
+  },
+  separador: {
+    marginHorizontal: 5,
     color: '#333333',
   },
 });

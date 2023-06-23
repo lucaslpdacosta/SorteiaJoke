@@ -2,18 +2,19 @@ import React, { useState, useRef, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { setBackgroundColorAsync } from "expo-navigation-bar";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Animated, ImageBackground, Alert } from 'react-native';
-//import { createUserWithEmailAndPassword } from 'firebase/auth';
-//import { auth } from '../../Firebase/Firebase';
 
 import imageBackground from '../../assets/bg.png';
 
 export default function Cadastro({ navigation }) {
   const [email, setEmail] = useState(null);
-  const [senha, setSenha] = useState(null);
-  const [confirmaSenha, setConfirmaSenha] = useState(null);
 
   const aumentarBotao = useRef(new Animated.Value(1)).current;
   const animPulso = useRef(new Animated.Value(1)).current;
+
+  const isEmail = (email) => {
+    const check = /\S+@\S+\.\S+/;
+    return check.test(email);
+  };
 
   React.useEffect(() => {
     setBackgroundColorAsync("#000000");
@@ -53,85 +54,50 @@ export default function Cadastro({ navigation }) {
     }).start();
   };
 
-  const alertaCadastro = (title, msg) =>
-    Alert.alert(title ? title : 'Cadastro Confirmado', msg, [
-      { text: 'OK' },
-    ]);
+  const alertaRecuperar = (title, message) => {
+    Alert.alert(title, message, [{ text: 'OK' }]);
+  };
 
-  const alertaErroSenha = (title, msg) =>
-    Alert.alert(title ? title : 'Erro', msg, [
-      { text: 'OK' },
-    ]);
-
-  const alertaErro = (title, msg) =>
-    Alert.alert(title ? title : 'Erro', msg, [
-      { text: 'OK' },
-    ]);
-
-  /*async function ValidarCadastro() {
-    try {
-      if (senha === confirmaSenha) {
-        await createUserWithEmailAndPassword(auth, email, senha);
-        alertaCadastro("", "Cadastro criado com sucesso.");
-        navigation.navigate('Login');
-      } else {
-        alertaErroSenha('', 'Senha Incorreta.');
-      }
-    } catch (error) {
-      console.log(error);
-      alertaErro('', 'Campo(s) inválido(s).');
+  const validarEmail = () => {
+    if (!email) {
+      alertaRecuperar('Erro', 'Campo vazio');
+    } else if (!isEmail(email)) {
+      alertaRecuperar('Erro', 'Email inválido');
+    } else {
+      alertaRecuperar('Recuperar Senha', 'Algo vai aqui :)');
     }
-  }
-  */
+  };
+
   return (
     <ImageBackground source={imageBackground} style={styles.imageBackground}>
       <View style={styles.container}>
         <StatusBar style="light" backgroundColor="#0080FF" />
-        <View style={styles.containerTitulo}>
-          <Animated.View style={[styles.tituloMain, { transform: [{ scale: animPulso }] }]}>
-            <Text style={styles.tituloSorteia}>Sorteia</Text>
-            <Text style={styles.tituloJoke}>Joke</Text>
-          </Animated.View>
+        <View style={styles.tituloContainer}>
+          <Text style={styles.tituloTexto}>ESQUECEU SUA SENHA?</Text>
         </View>
 
         <View style={styles.content}>
-          <Text style={styles.titulo}>Faça seu Cadastro</Text>
+          <Text style={styles.titulo}>Informe o seu Email</Text>
           <TextInput
             style={styles.inputForm}
-            placeholder="Informe seu Email"
+            placeholder="Informe seu Email aqui..."
             onChangeText={email => setEmail(email)}
             autoCapitalize="none"
             keyboardType="email-address"
           />
-          <TextInput
-            style={styles.inputForm}
-            placeholder="Informe a senha com 8 caracteres..."
-            onChangeText={senha => setSenha(senha)}
-            maxLength={8}
-            autoCapitalize="none"
-            secureTextEntry={true}
-          />
-          <TextInput
-            style={styles.inputForm}
-            placeholder="... E confirme ;)"
-            onChangeText={confirmaSenha => setConfirmaSenha(confirmaSenha)}
-            maxLength={8}
-            autoCapitalize="none"
-            secureTextEntry={true}
-          />
 
           <TouchableOpacity
             style={[styles.botao, { transform: [{ scale: aumentarBotao }] }]}
-            //onPress={ValidarCadastro}
+            onPress={validarEmail}
             onPressIn={botaoPressionado}
             onPressOut={botaoSolto}
             activeOpacity={1}
           >
-            <Text style={styles.tituloBotao}>CADASTRO</Text>
+            <Text style={styles.tituloBotao}>CONFIRMAR</Text>
           </TouchableOpacity>
 
           <Text style={styles.linkNav} onPress={() => navigation.navigate('Login')}>
-            Já tem uma Conta?
+            Voltar à Página Inicial
           </Text>
         </View>
       </View>
@@ -149,56 +115,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  containerTitulo: {
+  tituloContainer: {
+    bottom: '5%',
+    left: 0,
+    right: 0,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
-    marginBottom: 50,
   },
-  tituloMain: {
-    flexDirection: 'row',
-  },
-  tituloSorteia: {
-    fontSize: 40,
+  tituloTexto: {
+    fontSize: 28,
     fontWeight: 'bold',
-    color: '#FFFFFF',
-    backgroundColor: '#0080FF',
-    borderWidth: 1,
-    borderColor: '#333333',
-    padding: 5,
-    paddingRight: 2,
-    paddingLeft: 15,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  tituloJoke: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: '#0080FF',
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#333333',
-    padding: 5,
-    paddingRight: 15,
-    paddingLeft: 2,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    color: '#333333',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    borderRadius: 10,
+    padding: 10
   },
   content: {
     width: '80%',
     backgroundColor: '#FFFFFF',
+    top: '2%',
     padding: 20,
     borderWidth: 1.2,
     borderRadius: 20,
@@ -238,7 +172,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
-    shadowColor: '#000',
+    shadowColor: '#000000',
     shadowOffset: {
       width: 0,
       height: 2,
