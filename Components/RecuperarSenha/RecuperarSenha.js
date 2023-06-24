@@ -5,7 +5,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Animated, ImageBac
 
 import imageBackground from '../../assets/bg.png';
 
-export default function Cadastro({ navigation }) {
+export default function RecuperarSenha({ navigation }) {
   const [email, setEmail] = useState(null);
 
   const aumentarBotao = useRef(new Animated.Value(1)).current;
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
+    shadowColor: '#000000',
     shadowOffset: {
       width: 0,
       height: 2,

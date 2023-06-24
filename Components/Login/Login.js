@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { setBackgroundColorAsync } from "expo-navigation-bar";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Animated, ImageBackground, Alert } from 'react-native';
-import { auth } from '../../Firebase/Firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 
 import imageBackground from '../../assets/bg.png';
 
@@ -37,27 +35,6 @@ export default function Login({ navigation }) {
 
     return () => pulso.stop();
   }, [animPulso]);
-
-  const alertaLogado = (title, msg) =>
-    Alert.alert(title ? title : 'Usuário autenticado', msg, [
-      { text: 'OK' },
-    ]);
-
-  const alertaErro = (title, msg) =>
-    Alert.alert(title ? title : 'Erro', msg, [
-      { text: 'OK' },
-    ]);
-
-  async function ValidarLogin() {
-    try {
-      await signInWithEmailAndPassword(auth, email, senha);
-      alertaLogado("", "Usuário autenticado com sucesso.");
-      navigation.navigate('TelaPrincipal');
-    } catch (error) {
-      console.log(error);
-      alertaErro("", "Email ou senha inválidos.");
-    }
-  }
 
   const botaoPressionado = () => {
     Animated.spring(aumentarBotao, {
@@ -106,7 +83,7 @@ export default function Login({ navigation }) {
 
           <TouchableOpacity
             style={[styles.botao, { transform: [{ scale: aumentarBotao }] }]}
-            onPress={ValidarLogin}
+            onPress={() => navigation.navigate('TelaPrincipal')}
             onPressIn={botaoPressionado}
             onPressOut={botaoSolto}
             activeOpacity={1}
@@ -250,7 +227,7 @@ const styles = StyleSheet.create({
   },
   linkText: {
     textDecorationLine: 'underline',
-    fontWeight: 500,
+    fontWeight: '500',
     fontSize: 12,
     color: '#333333',
   },

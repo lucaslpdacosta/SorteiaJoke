@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { setBackgroundColorAsync } from "expo-navigation-bar";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Animated, ImageBackground, Alert } from 'react-native';
-//import { createUserWithEmailAndPassword } from 'firebase/auth';
-//import { auth } from '../../Firebase/Firebase';
 
 import imageBackground from '../../assets/bg.png';
 
@@ -53,36 +51,6 @@ export default function Cadastro({ navigation }) {
     }).start();
   };
 
-  const alertaCadastro = (title, msg) =>
-    Alert.alert(title ? title : 'Cadastro Confirmado', msg, [
-      { text: 'OK' },
-    ]);
-
-  const alertaErroSenha = (title, msg) =>
-    Alert.alert(title ? title : 'Erro', msg, [
-      { text: 'OK' },
-    ]);
-
-  const alertaErro = (title, msg) =>
-    Alert.alert(title ? title : 'Erro', msg, [
-      { text: 'OK' },
-    ]);
-
-  /*async function ValidarCadastro() {
-    try {
-      if (senha === confirmaSenha) {
-        await createUserWithEmailAndPassword(auth, email, senha);
-        alertaCadastro("", "Cadastro criado com sucesso.");
-        navigation.navigate('Login');
-      } else {
-        alertaErroSenha('', 'Senha Incorreta.');
-      }
-    } catch (error) {
-      console.log(error);
-      alertaErro('', 'Campo(s) inválido(s).');
-    }
-  }
-  */
   return (
     <ImageBackground source={imageBackground} style={styles.imageBackground}>
       <View style={styles.container}>
@@ -122,7 +90,7 @@ export default function Cadastro({ navigation }) {
 
           <TouchableOpacity
             style={[styles.botao, { transform: [{ scale: aumentarBotao }] }]}
-            //onPress={ValidarCadastro}
+
             onPressIn={botaoPressionado}
             onPressOut={botaoSolto}
             activeOpacity={1}
